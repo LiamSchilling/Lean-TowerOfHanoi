@@ -5,7 +5,8 @@ variable {α : Type*} [LinearOrder α] {a b : α}
 /-- For lower sets `I` in total orderings,
 every element in `I` is less than every element not in `I` -/
 theorem mem_lt_notMem (I : LowerSet α) (ha : a ∈ I) (hb : b ∉ I) : a < b := by
-  rcases lt_or_ge a b with h | h
+  cases lt_or_ge a b
   . assumption
   . absurd hb
-    exact I.lower h ha
+    apply I.lower
+    all_goals assumption
