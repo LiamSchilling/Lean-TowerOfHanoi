@@ -92,23 +92,23 @@ def mapLowerBlock {H : Hanoi τ β₁} (g : B₂ ≃o β₁) (k : ∀ b, b ∉ B
     by_cases hb : b ∈ B₂
     all_goals simp [Hanoi.mapLowerBlock, hb] at h
   · exact g.symm_apply_le.mpr (m.source_inf h)
-  · exact le_of_lt (mem_lt_notMem B₂ (SetLike.coe_mem _) hb)
+  · exact le_of_lt (B₂.mem_lt_notMem (SetLike.coe_mem _) hb)
   · exact g.symm_apply_le.mpr (m.dest_inf h)
-  · exact le_of_lt (mem_lt_notMem B₂ (SetLike.coe_mem _) hb)
+  · exact le_of_lt (B₂.mem_lt_notMem (SetLike.coe_mem _) hb)
 
 /-- Mapping distributes over executing a move -/
 theorem mapTower_move {H : Hanoi τ₁ β} (m : Move H) (f : τ₁ → τ₂) (h_inj : Injective f) :
     (H.move m).mapTower f = (H.mapTower f).move (m.mapTower f h_inj) := by
   ext b
   by_cases h : b = m.block
-  all_goals simp [Hanoi.mapTower, move, h, update, mapTower]
+  all_goals simp [update, Hanoi.mapTower, move, mapTower, h]
 
 /-- Mapping distributes over executing a move -/
 theorem mapBlock_move {H : Hanoi τ β₁} (m : Move H) (g : β₂ ≃o β₁) :
     (H.move m).mapBlock g = (H.mapBlock g).move (m.mapBlock g) := by
   ext b
   by_cases h : b = g.symm m.block
-  all_goals simp [Hanoi.mapBlock, move, h, update, mapBlock]
+  all_goals simp [update, Hanoi.mapBlock, move, mapBlock, h]
   . intro hn
     absurd h
     simp [←hn]
@@ -118,7 +118,7 @@ theorem mapLowerBlock_move {H : Hanoi τ β₁} (m : Move H) (g : B₂ ≃o β�
     (H.move m).mapLowerBlock g k = (H.mapLowerBlock g k).move (m.mapLowerBlock g k) := by
   ext b
   by_cases hb : b ∈ B₂ <;> by_cases h : b = g.symm m.block
-  all_goals simp [Hanoi.mapLowerBlock, move, hb, h, update, mapLowerBlock]
+  all_goals simp [update, Hanoi.mapLowerBlock, move, mapLowerBlock, h, hb]
   . intro hn
     absurd h
     simp [←hn]
@@ -151,8 +151,8 @@ decreasing_by sorry
 theorem appendReverse_length {H₁ H₂ H₃ : Hanoi τ β} (w₁ : Walk H₁ H₂) (w₂ : Walk H₃ H₂) :
     (appendReverse w₁ w₂).length = w₁.length + w₂.length := by
   induction w₂ with
-  | nil => simp [appendReverse, length]
-  | cons _ _ _ => grind [appendReverse, length]
+  | nil => simp [length, appendReverse]
+  | cons _ _ _ => grind [length, appendReverse]
 
 /-- Map a walk between tower types,
 which is well-defined for injective maps -/
@@ -182,25 +182,28 @@ def mapLowerBlock {H₁ H₂ : Hanoi τ β₁} (g : B₂ ≃o β₁) (k : ∀ b,
   | cons m w => m.mapLowerBlock_move g k ▸ cons (m.mapLowerBlock g k) (w.mapLowerBlock g k)
 
 /-- Mapping preserves length -/
-theorem mapTower_length {H₁ H₂ : Hanoi τ₁ β} (w : Walk H₁ H₂) (f : τ₁ → τ₂) (h_inj : Injective f) :
+theorem mapTower_length
+    {H₁ H₂ : Hanoi τ₁ β} (w : Walk H₁ H₂) (f : τ₁ → τ₂) (h_inj : Injective f) :
     (w.mapTower f h_inj).length = w.length := by
   induction w with
   | nil => rfl
-  | cons _ _ _ => grind [mapTower, length]
+  | cons _ _ _ => grind [length, mapTower]
 
 /-- Mapping preserves length -/
-theorem mapBlock_length {H₁ H₂ : Hanoi τ β₁} (w : Walk H₁ H₂) (g : β₂ ≃o β₁) :
+theorem mapBlock_length
+    {H₁ H₂ : Hanoi τ β₁} (w : Walk H₁ H₂) (g : β₂ ≃o β₁) :
     (w.mapBlock g).length = w.length := by
   induction w with
   | nil => rfl
-  | cons _ _ _ => grind [mapBlock, length]
+  | cons _ _ _ => grind [length, mapBlock]
 
 /-- Mapping preserves length -/
-theorem mapLowerBlock_length {H₁ H₂ : Hanoi τ β₁} (w : Walk H₁ H₂) (g : B₂ ≃o β₁) (k : ∀ b, b ∉ B₂ → τ) :
+theorem mapLowerBlock_length
+    {H₁ H₂ : Hanoi τ β₁} (w : Walk H₁ H₂) (g : B₂ ≃o β₁) (k : ∀ b, b ∉ B₂ → τ) :
     (w.mapLowerBlock g k).length = w.length := by
   induction w with
   | nil => rfl
-  | cons _ _ _ => grind [mapLowerBlock, length]
+  | cons _ _ _ => grind [length, mapLowerBlock]
 
 end Walk
 

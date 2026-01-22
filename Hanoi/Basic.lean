@@ -1,1 +1,1 @@
-import Hanoi.Defs
+import Hanoi.Classic
