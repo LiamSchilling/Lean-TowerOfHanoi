@@ -11,4 +11,4 @@ name = "Hanoi"
 
 [[lean_exe]]
 name = "hanoi"
-root = "Main"
+root = "Hanoi"
