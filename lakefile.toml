@@ -1,0 +1,14 @@
+name = "Hanoi"
+version = "0.1.0"
+defaultTargets = ["hanoi"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+
+[[lean_lib]]
+name = "Hanoi"
+
+[[lean_exe]]
+name = "hanoi"
+root = "Main"
