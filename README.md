@@ -10,5 +10,5 @@ A formalization of the [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_H
 ## Blueprint
 
 - [X] Configurations, moves, and walks in Tower of Hanoi with towers from some type and blocks from some totally-ordered type. A block can only be moved to and from towers containing only greater blocks.
-- [X] Mapping configurations, moves, and walks between isomorphic types.
-- [ ] Mapping moves and walks on a lower subset of all the blocks to moves and walks on all the blocks.
+- [X] Map configurations, moves, and walks between isomorphic types.
+- [ ] Map moves and walks on a lower subset of all the blocks to moves and walks on all the blocks.
