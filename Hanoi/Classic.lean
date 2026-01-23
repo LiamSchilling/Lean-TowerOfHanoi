@@ -169,9 +169,11 @@ theorem shortestWalk_length (n : ℕ) (hn : n ≠ 0) : (shortestWalk n hn).lengt
   induction n with
   | zero => contradiction
   | succ n ih =>
-    cases n
-    . sorry
-    . sorry
+  match n with
+  | 0 => grind [Walk.length, shortestWalk]
+  | n + 1 =>
+    simp [shortestWalk]
+    sorry
 
 end Classic
 
