@@ -139,7 +139,8 @@ def appendReverse {H₁ H₂ H₃ : Hanoi τ β} (w₁ : Walk H₁ H₂) (w₂ :
   match w₂ with
   | nil => w₁
   | cons m w₂ => appendReverse (cons m.reverse w₁) (m.reverse_reverse.symm ▸ w₂)
-decreasing_by sorry
+termination_by sizeOf w₂
+decreasing_by grind
 
 /-- Appending adds lengths -/
 theorem appendReverse_length {H₁ H₂ H₃ : Hanoi τ β} (w₁ : Walk H₁ H₂) (w₂ : Walk H₃ H₂) :
