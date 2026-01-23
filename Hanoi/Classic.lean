@@ -49,7 +49,7 @@ theorem goal_neq_start : goal ≠ start := by
 /-- A unique block can be moved anywhere -/
 def singlePileMove (a b : τ) :
     (pile (Fin 1) a).Move := by
-  refine ⟨0, a, b, ?_, ?_, ?_⟩
+  refine ⟨0, b, ?_, ?_⟩
   all_goals simp
 
 /-- Moving a unique block relocates the entire pile -/
@@ -61,8 +61,7 @@ theorem move_singlePileMove (a b : τ) :
 /-- The exceptional block from a pile can be moved anywhere away from the pile -/
 def nearPileMove {m : ℕ} (a b c : τ) (hab : a ≠ b) (hbc : b ≠ c) :
     (nearPile (Fin (m + 1)) b (Fin.last m) a).Move := by
-  refine ⟨Fin.last m, a, c, ?_, ?_, ?_⟩
-  . simp
+  refine ⟨Fin.last m, c, ?_, ?_⟩
   all_goals
     intro k
     by_cases hk : k = Fin.last m

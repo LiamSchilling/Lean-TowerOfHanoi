@@ -27,9 +27,7 @@ def mapLowerBlock (g : B₂ → β₁) (k : ∀ b, b ∉ B₂ → τ) : Hanoi τ
 /-- A move of the smallest block of some tower to a destination tower -/
 structure Move (H : Hanoi τ β) where
   block : β
-  source : τ
   dest : τ
-  at_source : H block = source
   source_inf {b} : H block = H b → block ≤ b
   dest_inf {b} : dest = H b → block ≤ b
 
@@ -41,8 +39,7 @@ namespace Move
 
 /-- Reverse a move -/
 def reverse {H : Hanoi τ β} (m : Move H) : Move (H.move m) := by
-  refine ⟨m.block, m.dest, m.source, ?_, ?_, ?_⟩
-  . simp [move]
+  refine ⟨m.block, H m.block, ?_, ?_⟩
   all_goals
     intro b h
     by_cases hb : b = m.block
@@ -50,18 +47,17 @@ def reverse {H : Hanoi τ β} (m : Move H) : Move (H.move m) := by
   . exact le_of_eq hb.symm
   . exact m.dest_inf h
   . exact le_of_eq hb.symm
-  . exact m.source_inf (m.at_source ▸ h)
+  . exact m.source_inf h
 
 /-- Reverse is its own inverse -/
 theorem reverse_reverse {H : Hanoi τ β} (m : Move H) : (H.move m).move m.reverse = H := by
-  simp [move, reverse, m.at_source]
+  simp [move, reverse]
 
 /-- Map a move between tower types,
 which is well-defined for injective maps -/
 def mapTower {H : Hanoi τ₁ β} (f : τ₁ → τ₂) (h_inj : Injective f) (m : Move H) :
     Move (H.mapTower f) := by
-  refine ⟨m.block, f m.source, f m.dest, ?_, ?_, ?_⟩
-  . simp [Hanoi.mapTower, m.at_source]
+  refine ⟨m.block, f m.dest, ?_, ?_⟩
   all_goals intro _ h
   . exact m.source_inf (h_inj h)
   . exact m.dest_inf (h_inj h)
@@ -70,8 +66,7 @@ def mapTower {H : Hanoi τ₁ β} (f : τ₁ → τ₂) (h_inj : Injective f) (m
 which is well-defined for maps that respect order -/
 def mapBlock {H : Hanoi τ β₁} (g : β₂ ≃o β₁) (m : Move H) :
     Move (H.mapBlock g) := by
-  refine ⟨g.symm m.block, m.source, m.dest, ?_, ?_, ?_⟩
-  . simp [Hanoi.mapBlock, m.at_source]
+  refine ⟨g.symm m.block, m.dest, ?_, ?_⟩
   all_goals
     intro _ h
     simp [Hanoi.mapBlock] at h
@@ -85,8 +80,7 @@ Essentially, any lower subset of blocks in a configuration
 can be moved independently of the greater blocks -/
 def mapLowerBlock {H : Hanoi τ β₁} (g : B₂ ≃o β₁) (k : ∀ b, b ∉ B₂ → τ) (m : Move H) :
     Move (H.mapLowerBlock g k) := by
-  refine ⟨g.symm m.block, m.source, m.dest, ?_, ?_, ?_⟩
-  . simp [Hanoi.mapLowerBlock, m.at_source]
+  refine ⟨g.symm m.block, m.dest, ?_, ?_⟩
   all_goals
     intro b h
     by_cases hb : b ∈ B₂
