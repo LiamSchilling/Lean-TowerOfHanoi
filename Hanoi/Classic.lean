@@ -113,17 +113,17 @@ theorem towerMap_pile_goal (a b c : Tower) :
 def finLowerSetEquiv {n : ℕ} (m : ℕ) (h_lt : m < n) :
     LowerSet.principal (Fin.mk m h_lt) ≃ Fin (m + 1) := by
   refine ⟨fun ⟨k, h⟩ ↦ ⟨k, ?_⟩, fun ⟨k, h⟩ ↦ ⟨Fin.mk k ?_, ?_⟩, ?_, ?_⟩
-  . exact Nat.lt_succ_of_le h
-  . exact lt_of_le_of_lt (Nat.le_of_lt_succ h) h_lt
-  . exact Nat.le_of_lt_succ h
-  . simp [LeftInverse]
-  . simp [LeftInverse, RightInverse]
+  · exact Nat.lt_succ_of_le h
+  · exact lt_of_le_of_lt (Nat.le_of_lt_succ h) h_lt
+  · exact Nat.le_of_lt_succ h
+  · simp [LeftInverse]
+  · simp [LeftInverse, RightInverse]
 
 /-- The order isomorphism between `Fin (m + 1)` and a lower set of `Fin n` of size `m + 1` -/
 def finLowerSetOrderIso {n : ℕ} (m : ℕ) (h_lt : m < n) :
     LowerSet.principal (Fin.mk m h_lt) ≃o Fin (m + 1) := by
   refine ⟨finLowerSetEquiv m h_lt, ?_⟩
-  . rfl
+  · rfl
 
 /-- A lower pile of size `m + 1` mapped into a pile of size `m + 2` is just a `nearPile` -/
 theorem mapLowerBlock_pile (m : ℕ) (a b : τ) :
@@ -132,8 +132,8 @@ theorem mapLowerBlock_pile (m : ℕ) (a b : τ) :
   ext k
   by_cases hk : k = Fin.last (m + 1)
   all_goals simp [LowerSet.principal, mapLowerBlock, hk]
-  . simp [Fin.last]
-  . intro h
+  · simp [Fin.last]
+  · intro h
     absurd hk
     exact Fin.last_le_iff.mp h
 

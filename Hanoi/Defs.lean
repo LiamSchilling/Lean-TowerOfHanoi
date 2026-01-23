@@ -8,7 +8,7 @@ abbrev Hanoi (τ β : Type*) :=
 
 variable {τ τ₁ τ₂ β β₁ β₂ : Type*}
 variable [LinearOrder β] [LinearOrder β₁] [LinearOrder β₂]
-variable {B₂ : LowerSet β₂} [DecidablePred (. ∈ B₂)]
+variable {B₂ : LowerSet β₂} [DecidablePred (· ∈ B₂)]
 
 namespace Hanoi
 
@@ -44,10 +44,10 @@ def reverse {H : Hanoi τ β} (m : Move H) : Move (H.move m) := by
     intro b h
     by_cases hb : b = m.block
     all_goals simp [move, hb] at h
-  . exact le_of_eq hb.symm
-  . exact m.dest_inf h
-  . exact le_of_eq hb.symm
-  . exact m.source_inf h
+  · exact le_of_eq hb.symm
+  · exact m.dest_inf h
+  · exact le_of_eq hb.symm
+  · exact m.source_inf h
 
 /-- Reverse is its own inverse -/
 theorem reverse_reverse {H : Hanoi τ β} (m : Move H) : (H.move m).move m.reverse = H := by
@@ -59,8 +59,8 @@ def mapTower {H : Hanoi τ₁ β} (f : τ₁ → τ₂) (h_inj : Injective f) (m
     Move (H.mapTower f) := by
   refine ⟨m.block, f m.dest, ?_, ?_⟩
   all_goals intro _ h
-  . exact m.source_inf (h_inj h)
-  . exact m.dest_inf (h_inj h)
+  · exact m.source_inf (h_inj h)
+  · exact m.dest_inf (h_inj h)
 
 /-- Map a move between block types,
 which is well-defined for maps that respect order -/
@@ -70,8 +70,8 @@ def mapBlock {H : Hanoi τ β₁} (g : β₂ ≃o β₁) (m : Move H) :
   all_goals
     intro _ h
     simp [Hanoi.mapBlock] at h
-  . exact g.symm_apply_le.mpr (m.source_inf h)
-  . exact g.symm_apply_le.mpr (m.dest_inf h)
+  · exact g.symm_apply_le.mpr (m.source_inf h)
+  · exact g.symm_apply_le.mpr (m.dest_inf h)
 
 /-- Map a move to a lower subset of a block type,
 which is well-defined for maps that respect order
@@ -103,7 +103,7 @@ theorem mapBlock_move {H : Hanoi τ β₁} (m : Move H) (g : β₂ ≃o β₁) :
   ext b
   by_cases h : b = g.symm m.block
   all_goals simp [update, Hanoi.mapBlock, move, mapBlock, h]
-  . intro hn
+  · intro hn
     absurd h
     simp [←hn]
 
@@ -113,7 +113,7 @@ theorem mapLowerBlock_move {H : Hanoi τ β₁} (m : Move H) (g : B₂ ≃o β�
   ext b
   by_cases hb : b ∈ B₂ <;> by_cases h : b = g.symm m.block
   all_goals simp [update, Hanoi.mapLowerBlock, move, mapLowerBlock, h, hb]
-  . intro hn
+  · intro hn
     absurd h
     simp [←hn]
 
