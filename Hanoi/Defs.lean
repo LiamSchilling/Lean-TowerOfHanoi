@@ -132,6 +132,18 @@ def length {H₁ H₂ : Hanoi τ β} (w : Walk H₁ H₂) : ℕ :=
   | nil => 0
   | cons _ w => w.length + 1
 
+/-- Reduce a cast before `length` -/
+@[simp]
+theorem cast_source_length {H₁ H₂ H₃ : Hanoi τ β} (w : Walk H₁ H₃) (h_eq : H₁ = H₂) :
+    (h_eq ▸ w).length = w.length := by
+  grind
+
+/-- Reduce a cast before `length` -/
+@[simp]
+theorem cast_dest_length {H₁ H₂ H₃ : Hanoi τ β} (w : Walk H₁ H₂) (h_eq : H₂ = H₃) :
+    (h_eq ▸ w).length = w.length := by
+  grind
+
 /-- Append one walk with the reverse of another
 
 Calls should be left-associative for performance because it is the right-hand walk that unfolds -/
@@ -143,6 +155,7 @@ termination_by sizeOf w₂
 decreasing_by grind
 
 /-- Appending adds lengths -/
+@[simp]
 theorem appendReverse_length {H₁ H₂ H₃ : Hanoi τ β} (w₁ : Walk H₁ H₂) (w₂ : Walk H₃ H₂) :
     (appendReverse w₁ w₂).length = w₁.length + w₂.length := by
   induction w₂ with
@@ -177,6 +190,7 @@ def mapLowerBlock {H₁ H₂ : Hanoi τ β₁} (g : B₂ ≃o β₁) (k : ∀ b,
   | cons m w => m.mapLowerBlock_move g k ▸ cons (m.mapLowerBlock g k) (w.mapLowerBlock g k)
 
 /-- Mapping preserves length -/
+@[simp]
 theorem mapTower_length
     {H₁ H₂ : Hanoi τ₁ β} (w : Walk H₁ H₂) (f : τ₁ → τ₂) (h_inj : Injective f) :
     (w.mapTower f h_inj).length = w.length := by
@@ -185,6 +199,7 @@ theorem mapTower_length
   | cons _ _ _ => grind [length, mapTower]
 
 /-- Mapping preserves length -/
+@[simp]
 theorem mapBlock_length
     {H₁ H₂ : Hanoi τ β₁} (w : Walk H₁ H₂) (g : β₂ ≃o β₁) :
     (w.mapBlock g).length = w.length := by
@@ -193,6 +208,7 @@ theorem mapBlock_length
   | cons _ _ _ => grind [length, mapBlock]
 
 /-- Mapping preserves length -/
+@[simp]
 theorem mapLowerBlock_length
     {H₁ H₂ : Hanoi τ β₁} (w : Walk H₁ H₂) (g : B₂ ≃o β₁) (k : ∀ b, b ∉ B₂ → τ) :
     (w.mapLowerBlock g k).length = w.length := by

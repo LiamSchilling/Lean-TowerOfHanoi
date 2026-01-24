@@ -4,8 +4,8 @@ A formalization of the [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_H
 
 ## Roadmap
 
-- [ ] Construct the solution to the classic configuration of `n` blocks on `3` towers and prove that its length is `2 ^ n - 1` steps.
-- [ ] Prove that any solution to the classic configuration of length less than `2 ^ n` steps is equal to the previous solution, thus showing that it the unique optimal solution.
+- [X] Construct the solution to the classic configuration of `n` blocks on `3` towers and prove that its length is `2 ^ n - 1` steps.
+- [ ] Prove that any solution to the classic configuration of length less than `2 ^ n` steps is equal to the previous solution, thus showing that it is the unique optimal solution.
 
 ## References
 
