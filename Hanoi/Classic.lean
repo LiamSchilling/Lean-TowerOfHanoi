@@ -137,7 +137,10 @@ theorem mapLowerBlock_pile (m : ℕ) (a b : τ) :
     absurd hk
     exact Fin.last_le_iff.mp h
 
-/-- The optimal solution to the classic game with `3` towers and a pile of `n` blocks -/
+/-- The optimal solution to the classic game with `3` towers and a pile of `n` blocks
+
+Though the definition is named `shortestWalk`,
+do note that its optimality is yet to be formalized -/
 def shortestWalk (n : ℕ) (hn : n ≠ 0) :
     Walk (pile (Fin n) start) (pile (Fin n) goal) :=
   match n with
@@ -164,17 +167,23 @@ def shortestWalk (n : ℕ) (hn : n ≠ 0) :
           Walk.cons moveGreatestBlock lowerStartToMiddle) lowerGoalToMiddle
     shortestWalk
 
-/-- The optimal solution contains `2 ^ n + 1` steps -/
+/-- The optimal solution contains `2 ^ n + 1` steps
+
+Though the definition is named `shortestWalk`,
+do note that its optimality is yet to be formalized -/
 theorem shortestWalk_length (n : ℕ) (hn : n ≠ 0) : (shortestWalk n hn).length = 2 ^ n - 1 := by
   induction n with
   | zero => contradiction
   | succ n ih =>
   match n with
-  | 0 => grind [Walk.length, shortestWalk]
+  | 0 => simp [Walk.length, shortestWalk]
   | n + 1 =>
-    simp [shortestWalk]
-    sorry
+    simp [Walk.length, shortestWalk, ih]
+    grind
 
 end Classic
 
 end Hanoi
+
+#print axioms Hanoi.Classic.shortestWalk
+#print axioms Hanoi.Classic.shortestWalk_length
