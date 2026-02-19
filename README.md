@@ -1,6 +1,6 @@
 # Tower of Hanoi
 
-A formalization of the [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_Hanoi) game and its generalizations.
+A formalization of the [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_Hanoi) game.
 
 ## Roadmap
 
